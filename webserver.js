@@ -1,6 +1,9 @@
 var net = require('net');
 
-var receivedAllRequestData = function(someStr) {}
+var isCompleteRequest = function(someStr) {
+
+  // return true;
+}
 var handleRequest = function(requestStr, connection) {
   // write a response
   conn.destroy()
@@ -13,8 +16,12 @@ var server = net.createServer(function(conn) {
   var requestData = '';
 
   conn.on('data', function(data) {
+    console.log(data.toString())
     requestData += data;
-    if (receivedAllRequestData(requestData)) {
+    if (looksWrong(requestData)) {
+      conn.destroy()
+    }
+    if (isCompleteRequest(requestData)) {
       handleRequest(requestData, conn);
     }
   })
@@ -26,6 +33,11 @@ var server = net.createServer(function(conn) {
 
 });
 
-server.listen(8080, function() {
-  console.log('running on 8080');
-});
+// server.listen(8080, function() {
+//   console.log('running on 8080');
+// });
+
+// isCompleteRequest()
+
+console.log(looksWrong("GET / HTTP/1.1"))
+console.log(looksWrong("TEST / HTTP/1.1"))
